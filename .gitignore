@@ -1,0 +1,8 @@
+.env
+package-lock.json
+keys
+node_modules
+logs
+public
+.pm2.json
+*.log
