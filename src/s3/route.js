@@ -12,15 +12,22 @@ module.exports = (app) => {
         s3Validation.validate('s3-upload'),
         async(req,res) => {
             try {
-                // check request middleware error
-                const errors = validationResult(req);
-                if (!errors.isEmpty()) {
+                if (req && !req.files) {
                     return res.status(ERROR.BAD_REQUEST.CODE).send({
                         status: 0,
-                        message: errors.array({ onlyFirstError: true })[0].msg,
+                        message: 'please upload file',
                     });
-                };
-                const data = await s3Controller.upload(req.body);
+                }
+                const { file } = req.files;
+                const validFileType = file.mimetype.includes('image') || file.mimetype.includes('video');
+                if (!validFileType) {
+                    return res.status(ERROR.BAD_REQUEST.CODE).send({
+                        status: 0,
+                        message: 'please upload valid file',
+                    });
+                }
+
+                const data = await s3Controller.upload(file.data);
                 return res.status(SUCCESS.CODE).send({
                     message: message.CREATED_SUCCESSFULLY,
                     status: 1,

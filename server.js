@@ -8,6 +8,7 @@ const log4js = require('log4js');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const compression = require('compression');
+const fileupload = require("express-fileupload");
 
 const { appUtility } = require('./utilities/server-utils');
 const { constants } = require('./config');
@@ -25,6 +26,7 @@ app.use(express.static('public'));
 app.use(morgan('combined'));
 app.use(compression());
 app.use(cors());
+app.use(fileupload());
 
 // load all routes and middleware =========================================================
 appUtility.loadRoutesAndMiddleware(app);

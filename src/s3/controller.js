@@ -1,4 +1,4 @@
-const s3 = require('../../lib');
+const { s3 } = require('../../lib');
 
 const upload = async (data) => {
     try {
